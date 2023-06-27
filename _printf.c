@@ -12,8 +12,8 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	int printed_chars = 0;
-	int num = 0;
 	int i = 0;
+	int printed_count = 0;
 
 	va_start(args, format);
 
@@ -25,7 +25,7 @@ int _printf(const char *format, ...)
 		if (format[i] != '%')
 		{
 			printed_chars = write(1, &format[i], 1);
-			num += printed_chars;
+			i++;
 		}
 		else
 		{
@@ -33,33 +33,65 @@ int _printf(const char *format, ...)
 			if (format[i] == '%')
 			{
 				printed_chars = write(1, &format[i], 1);
-				num += printed_chars;
+				i++;
 			}
 			else if (format[i] == '\0')
 				return (-1);
 			else
 			{
-				int (*f)(va_list);
+				int printed_chars = 0;
 
-				f = format_specifier(&format[i]);
-				if (f != NULL)
+				switch (format[i])
 				{
-					printed_chars = f(args);
-					if (printed_chars == -1)
-						return (-1);
-					num += printed_chars;
-					i++;
+					case 'c':
+						printed_count = handle_char(args);
+						break;
+					case 's':
+						printed_count = handle_string(args);
+						break;
+					case 'd':
+						printed_count = handle_integer_d(args);
+						break;
+
+					case 'i':
+						printed_count = handle_integer_i(args);
+						break;
+					case 'o':
+						printed_count = handle_octal(args);
+						break;
+					case 'X':
+						printed_count = handle_hexadecimal_upper(args);
+						break;
+					case 'x':
+						printed_count = handle_hexadecimal(args);
+						break;
+					case 'b':
+						printed_count = handle_binary(args);
+						break;
+
+					case 'u':
+					{		
+						unsigned int num = va_arg(args, unsigned int);
+						int digits = count_digits(num);
+						printed_count = print_unsigned_decimal(num, digits);
+						break;
+					}
+					default:
+						printed_count = write(1, &format[i - 1], 2);
+						break;
 				}
-				else
+
+				if (printed_count == -1)
 				{
-					printed_chars = write(1, &format[i - 1], 2);
-					num += printed_chars;
+					return (-1);
 				}
+				printed_chars += printed_count;
+				i++;
+
 			}
 		}
-		i++;
 	}
 
 	va_end(args);
-	return (num);
+	return (printed_chars);
 }

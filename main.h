@@ -34,7 +34,7 @@ int handle_hexadecimal(va_list args);
 int handle_hexadecimal_upper(va_list args);
 int handle_reversed_string(va_list args);
 int handle_binary(va_list args);
-void print_unsigned_decimal(unsigned int num, int digits);
+int print_unsigned_decimal(unsigned int num, int digits);
 int count_digits(unsigned int num);
 
 
