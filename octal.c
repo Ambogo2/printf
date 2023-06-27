@@ -29,15 +29,14 @@ int count_digits(unsigned int num)
  * @num: the unsigned decimal number
  * @digits: the number of digits
  */
-int print_unsigned_decimal(unsigned int num, int digits)
+void print_unsigned_decimal(unsigned int num, int digits)
 {
 	if (digits == 0)
 	{
-		return (0);
+		return;
 	}
 	print_unsigned_decimal(num / 10, digits - 1);
 	_putchar('0' + (num % 10));
-	return (0);
 }
 
 /**

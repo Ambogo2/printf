@@ -12,7 +12,8 @@
 int handle_char(va_list args)
 {
 	char c;
-	int num;
+	int num = 0;
+
 	c = (char)va_arg(args, int);
 
 	num = putchar(c);
@@ -35,14 +36,12 @@ int handle_string(va_list args)
 	str = va_arg(args, const char *);
 	if (str == NULL)
 	{
-		return (0);
+		str = "(null)";
 	}
-	
-	for (i = 0; str[i]; i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
 		putchar(str[i]);
 	}
-	
 	return (i);
 }
 
