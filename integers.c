@@ -3,25 +3,6 @@
 #include "main.h"
 
 /**
- * print_integer - Recursive helper function to print an integer
- * @num: Integer to be printed
- * Return: Number of digits printed
- */
-int print_integer(int num)
-{
-	int digits = 0;
-
-	if (num != 0)
-	{
-		digits = print_integer(num / 10);
-		_putchar('0' + (num % 10));
-		digits++;
-	}
-
-	return (digits);
-}
-
-/**
  * handle_integer_d - handles %d format specifier
  * @args: Arguments passed to the function
  * Return: Number of characters printed
@@ -29,32 +10,69 @@ int print_integer(int num)
 int handle_integer_d(va_list args)
 {
 	int num = va_arg(args, int);
-	int digits = 0;
-	int is_negative = 0;
-
-	if (num == 0)
-	{
-		_putchar('0');
-		return (1);
-	}
+	int div = 1;
+	int len = 0;
+	unsigned int n;
 
 	if (num < 0)
 	{
-		is_negative = 1;
-		num = -num;
-		_putchar('-');
+		len += _putchar('-');
+		n = -num;
+	}
+	else
+	{
+		n = num;
 	}
 
-	digits = print_integer(num);
-	return (digits + is_negative);
+	while (n / div > 9)
+	{
+		div *= 10;
+	}
+
+	while (div != 0)
+	{
+		len += _putchar('0' + n / div);
+		n %= div;
+		div /= 10;
+	}
+
+	return (len);
 }
+
 
 /**
  * handle_integer_i - handles %i format specifier
- * @args: Arguments passed to the function
+ * @n: unsigned int to be printed
  * Return: Number of characters printed
  */
 int handle_integer_i(va_list args)
 {
-	return (handle_integer_d(args));
+	int num = va_arg(args, int);
+	int div = 1;
+	int len = 0;
+	unsigned int n;
+
+	if (num < 0)
+	{
+		len += _putchar('-');
+		n = -num;
+	}
+	else
+	{
+		n = num;
+	}
+
+	while (n / div > 9)
+	{
+		div *= 10;
+	}
+
+	while (div != 0)
+	{
+		len += _putchar('0' + n / div);
+		n %= div;
+		div /= 10;
+	}
+
+	return (len);
 }
