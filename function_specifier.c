@@ -43,6 +43,7 @@ int handle_string(va_list args)
 		putchar(str[i]);
 	}
 	return (i);
+}
 /**
 *handle_percent - handles % sign
 *@args:Arguments passed to the function
@@ -52,5 +53,4 @@ int handle_percent(__attribute__((unused)) va_list args)
 {
 	putchar('%');
 	return (1);
-}
 }
